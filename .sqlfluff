@@ -1,0 +1,84 @@
+[sqlfluff]
+
+# Snowflake dialect
+dialect = snowflake
+
+
+# Comma separated list of rules to exclude, or None
+# See https://docs.sqlfluff.com/en/stable/configuration.html#enabling-and-disabling-rules
+# AM04 (ambiguous.column_count) and ST06 (structure.column_order) are
+# two of the more controversial rules included to illustrate usage.
+exclude_rules = ambiguous.column_count, structure.column_order, aliasing.table
+
+# rules = convention.not_equal
+
+# Maxium row lenght
+max_line_length = 120
+
+# CPU processes to use while linting.
+# The default is "single threaded" to allow easy debugging, but this
+# is often undesirable at scale.
+# If positive, just implies number of processes.
+# If negative or zero, implies number_of_cpus - specified_number.
+# e.g. -1 means use all processors but one. 0 means all cpus.
+processes = -1
+
+# User implicit positional references when using GROUP BY or ORDER BY statements
+group_by_and_order_by_style = implicit
+
+# Enable check on references in FROM clause
+references.from = True
+
+# 
+
+[sqlfluff:indentation]
+# While implicit indents are not enabled by default. Many of the
+# SQLFluff maintainers do use them in their projects.
+allow_implicit_indents = True
+
+# Joins are aligned with FROM clause
+indented_joins = False
+
+# The default configuration for aliasing rules is "consistent"
+# which will auto-detect the setting from the rest of the file. This
+# is less desirable in a new project and you may find this (slightly
+# more strict) setting more useful.
+[sqlfluff:rules:aliasing.table]
+aliasing = explicit
+[sqlfluff:rules:aliasing.column]
+aliasing = explicit
+[sqlfluff:rules:aliasing.length]
+min_alias_length = 3
+
+# Capitalization part
+
+# keywords such as SELECT, FROM, AS are in upper case
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+# functions are in upper case
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = upper
+
+# literals such as NULL, FALSE, TRUE etc. are in upper case
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = upper
+
+#data types are in upper case
+[sqlfluff:rules:capitalisation.types]
+extended_capitalisation_policy = upper
+
+[sqlfluff:layout:type:alias_expression]
+# We want non-default spacing _before_ the alias expressions.
+spacing_before = align
+# We want to align them within the next outer select clause.
+# This means for example that alias expressions within the FROM
+# or JOIN clause would _not_ be aligned with them.
+align_within = select_clause
+# The point at which to stop searching outward for siblings, which
+# in this example would likely be the boundary of a CTE. Stopping
+# when we hit brackets is usually a good rule of thumb for this
+# configuration.
+align_scope = file
+
+

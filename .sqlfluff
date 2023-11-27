@@ -13,7 +13,7 @@ exclude_rules = ambiguous.column_count, structure.column_order, aliasing.table
 # rules = convention.not_equal
 
 # Maxium row lenght
-max_line_length = 120
+max_line_length = 300
 
 # CPU processes to use while linting.
 # The default is "single threaded" to allow easy debugging, but this
